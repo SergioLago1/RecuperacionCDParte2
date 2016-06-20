@@ -1,60 +1,83 @@
 
-package examenfinalparte2;
+ package examenfinalparte2;
+ import java.util.Scanner;
 
-public class Principal {
+ public class Principal {
 
-    public static boolean p = false;
+    public static boolean esPrimo = false;
+
+    public static void main(String arg[]) {
+        int dig;
+        int ndig;
+        do {
+            dig = introducirDigito();
+            if (dig <= 0) {
+                System.out.println("Ingrese como parámetro, un numero de digito correcto (mayor que 0): ");
+            }
+        } while (dig <= 0); 
+        for (int numComparar = 1; numComparar <= 99999; numComparar++) {
+            ndig = contarDivisionEntera(numComparar); 
+            
+            
+            if (ndig == dig) {
+                if (numComparar < 4) {
+                    esPrimo = true;
+                } else if (numComparar % 2 == 0) { 
+                    esPrimo = false;
+                } else { 
+                    int countDivisores = 0;
+                    int i1 = 1;
+                    int limite = (numComparar - 1) / 2;
+                    if (limite % 2 == 0) {
+                        limite--;
+                    }
+
+                    esPrimo = calculaNumDivisores(i1, limite, numComparar, countDivisores);
+                }
+
+                if (esPrimo == true) {
+                    System.out.println(numComparar);
+                }
+            }
+        }
+    }
     
-    public static void main(String arg[])
-        {
-        int dig=2;
-        int ndig=0;
-        if(dig<=0)
-        System.out.println("Ingrese como parámetro, un numero de digitos correcto (mayor que 0): ");
-        for(int i = 1; i <= 99999; i++ )
-        {
-            int aux = i;
- 
-            int contador=0;
- 
-            while (aux != 0)
-        {
+      public static int introducirDigito() {
+        Scanner teclado = new Scanner(System.in);
+        System.out.println("Introduce un dígito:");
+        return teclado.nextInt();
+    }
+
+
+    private static boolean calculaNumDivisores(int i1, int limite, int numComparar, int countDivisores) {
+        boolean esPrimo = false;
+        while (i1 <= limite) {
+            if (numComparar % i1 == 0) {
+                countDivisores++;
+            }
+            i1 += 2;
+            if (countDivisores == 2) {
+                i1 = limite + 1;
+            }
+        }
+        
+        if (countDivisores == 1) {
+            esPrimo = true;
+        }
+        
+        return esPrimo;
+    }
+
+    
+    private static int contarDivisionEntera(int numComparar) {
+        int aux = numComparar;
+        int contador = 0;
+        while (aux != 0) {
             aux = aux / 10;
             contador++;
         }
-        ndig=contador;
-            
-            
-            if(ndig==dig){
-                   if (i < 4) p = true;
-            else
-            {
-            if (i % 2 == 0) p = false; 
-                else
-                {
-                    int contador1 = 0;  
-                    int i1 = 1; 
-                    int k = (i - 1) / 2; 
-                    if  (k % 2 == 0) k--;  
-             
-                    while(i1 <= k)
-                    {
-                        if (i % i1 == 0) contador1++;
-                            i1 += 2;
-                            if (contador1 == 2) i1 = k + 1;
-                    }
- 
-        if (contador1 == 1) p = true;
-            } 
-        } 
-     
-                if (p == true) 
-                    System.out.println(i);    
-            }
-        }
-        }
- 
-       
- 
+        return contador;
+    }
     
-}
+    
+ }
